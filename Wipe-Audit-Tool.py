@@ -68,7 +68,7 @@ if securazeUsername != "":
 					try: 
 						card(
         					title="Wipe Successful ✔️",
-        					text="Provided Serial: " + serialNumber + " | Click for more details",
+        					text="Provided Serial: " + serialNumber + " | Click for easy access to wipe report",
         					image="https://www.fredsmithxmastrees.com/wp-content/uploads/2017/04/Square-500x500-green-264x264.png",
         					url="https://us-west.securaze.com/pc-product/details?productID=" + productID + "&type=PCProduct#2",
 							styles={
