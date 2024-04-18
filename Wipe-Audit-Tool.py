@@ -14,6 +14,7 @@ col1, col2 = st.columns([1, 1])
 tokenObtained = False
 securazeUsername = ""
 securazePassword = ""
+global wipeSucceeded
 wipeSucceeded = False
 st.session_state.securazeUsername = True
 st.session_state.securazePassword = True
@@ -73,7 +74,6 @@ if tokenObtained == True and apiLoginComplete == True:
 		except:
 			productID = "None"
 		try:
-			global wipeSucceeded
 			wipeSucceeded = serialSearchDict['succeeded']
 			lookupMessage = serialSearchDict['message']
 		except:
