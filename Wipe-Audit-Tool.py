@@ -21,7 +21,7 @@ st.header("Securaze Wipe Check & Audit Log Alpha")
 with col1:
 	securazeUsername = st.text_input("Username")
 #login logic
-if securazeUsername != "" and tokenObtained == False:
+if securazeUsername != "":
 	with col2: 
 		securazePassword = st.text_input("Password", type="password")
 	if securazePassword != "" and securazeUsername != "":
