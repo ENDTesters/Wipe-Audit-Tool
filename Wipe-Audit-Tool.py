@@ -79,7 +79,7 @@ if securazeUsername != "":
 							}
     					)
 						rain(
-							emoji="✔️",
+							emoji="✅",
 							font_size=30,
 							falling_speed=8,
 							animation_length=3
@@ -90,7 +90,7 @@ if securazeUsername != "":
 				def wipeFail():
 					try:
 						card(
-        					title="Wipe Failed ‼️",
+        					title="Wipe Failed ‼❌",
         					text="Provided Serial: " + serialNumber + " | Click for more details",
         					image="https://th.bing.com/th/id/OIP.0MzNC_IRoz_RF3SqpG3yVAHaGn?rs=1&pid=ImgDetMain",
         					url="https://us-west.securaze.com/search?searchInput=" + serialNumber,
