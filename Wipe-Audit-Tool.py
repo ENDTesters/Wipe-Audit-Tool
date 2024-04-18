@@ -60,24 +60,23 @@ if securazeUsername != "":
 			st.error("Please check your login details, press Enter, or refresh.")
 if tokenObtained == True and apiLoginComplete == True: 	
 	serialNumber = st.text_input("Enter the Serial Number then press Enter")
-	if serialNumber != "":
-		try: 
-			serialSearchParams = {'CustomerID': customerID, 'SearchInput': serialNumber, 'Token': loginToken}
-			serialSearch = req.post('https://api-us-west.securaze.com/api/products/search', data=serialSearchParams)
-			serialSearchDict = serialSearch.json()
-			serialSearchResults = serialSearchDict.get("result")
-			serialSearchResultsData = serialSearchResults.get("data")
-		except:
-			st.toast("An unknown error has occured. Error Code: 02")
-		try:
-			productID = serialSearchResultsData['ProductID']
-		except:
-			productID = "None"
-		try:
-			wipeSucceeded = serialSearchDict['succeeded']
-			lookupMessage = serialSearchDict['message']
-		except:
-			st.toast("An unknown error has occured. Error Code: 03")
+	try: 
+		serialSearchParams = {'CustomerID': customerID, 'SearchInput': serialNumber, 'Token': loginToken}
+		serialSearch = req.post('https://api-us-west.securaze.com/api/products/search', data=serialSearchParams)
+		serialSearchDict = serialSearch.json()
+		serialSearchResults = serialSearchDict.get("result")
+		serialSearchResultsData = serialSearchResults.get("data")
+	except:
+		st.toast("An unknown error has occured. Error Code: 02")
+	try:
+		productID = serialSearchResultsData['ProductID']
+	except:
+		productID = "None"
+	try:
+		wipeSucceeded = serialSearchDict['succeeded']
+		lookupMessage = serialSearchDict['message']
+	except:
+		st.toast("An unknown error has occured. Error Code: 03")
 	## log here
 	## may be best to write to the github folder
 	def wipePass():
