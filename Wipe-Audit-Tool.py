@@ -18,9 +18,8 @@ st.session_state.securazeUsername = True
 st.session_state.securazePassword = True
 st.session_state.tokenObtained = True
 st.header("Securaze Wipe Check & Audit Log Alpha")
-if securazeUsername == "":
-	with col1:
-		securazeUsername = st.text_input("Username")
+with col1:
+	securazeUsername = st.text_input("Username")
 if securazeUsername != "":
 	with col2: 
 		securazePassword = st.text_input("Password", type="password")
