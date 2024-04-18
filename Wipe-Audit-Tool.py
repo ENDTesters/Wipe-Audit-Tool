@@ -82,7 +82,7 @@ if securazeUsername != "":
 							emoji="✔️",
 							font_size=30,
 							falling_speed=8,
-							animation_length=1
+							animation_length=3
 						)
 					except:
 						pass
@@ -105,7 +105,7 @@ if securazeUsername != "":
 							emoji="❌",
 							font_size=30,
 							falling_speed=8,
-							animation_length=1
+							animation_length=3
 						)
 					except:
 						pass
