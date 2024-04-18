@@ -67,7 +67,7 @@ if tokenObtained == True and apiLoginComplete == True:
 		serialSearchResults = serialSearchDict.get("result")
 		serialSearchResultsData = serialSearchResults.get("data")
 	except:
-		st.toast("An unknown error has occured. Error Code: 02")
+		st.toast("Not searching yet...")
 	try:
 		productID = serialSearchResultsData['ProductID']
 	except:
@@ -76,7 +76,7 @@ if tokenObtained == True and apiLoginComplete == True:
 		wipeSucceeded = serialSearchDict['succeeded']
 		lookupMessage = serialSearchDict['message']
 	except:
-		st.toast("An unknown error has occured. Error Code: 03")
+		st.toast("Not searching yet...")
 	## log here
 	## may be best to write to the github folder
 	def wipePass():
