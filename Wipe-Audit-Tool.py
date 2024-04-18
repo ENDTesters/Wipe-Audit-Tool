@@ -67,7 +67,7 @@ if securazeUsername != "":
 				def wipePass():
 					try: 
 						card(
-        					title="Wipe Successful ✔️",
+        					title="Wipe Successful ✅",
         					text="Provided Serial: " + serialNumber + " | Click for wipe report",
         					image="https://www.fredsmithxmastrees.com/wp-content/uploads/2017/04/Square-500x500-green-264x264.png",
         					url="https://us-west.securaze.com/pc-product/details?productID=" + productID + "&type=PCProduct#2",
@@ -90,7 +90,7 @@ if securazeUsername != "":
 				def wipeFail():
 					try:
 						card(
-        					title="Wipe Failed ❌",
+        					title="Wipe Failed ‼️",
         					text="Provided Serial: " + serialNumber + " | Click for more details",
         					image="https://th.bing.com/th/id/OIP.0MzNC_IRoz_RF3SqpG3yVAHaGn?rs=1&pid=ImgDetMain",
         					url="https://us-west.securaze.com/search?searchInput=" + serialNumber,
