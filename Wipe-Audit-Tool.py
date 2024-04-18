@@ -136,7 +136,7 @@ if tokenObtained == True and apiLoginComplete == True:
 	else:
 		wipeText = "Not Found"
 		wipeFail()
-	st.toast("API Response: " + lookupMessage)
+		st.toast("API Response: " + lookupMessage)
 	try:
 		st.header("Wipe Check & Audit Log: Current Limitations")
 		st.write("This program could do the same things with fewer API requests.")
