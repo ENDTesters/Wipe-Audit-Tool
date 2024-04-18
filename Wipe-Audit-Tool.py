@@ -15,47 +15,47 @@ tokenObtained = False
 global wipeSucceeded
 wipeSucceeded = False
 st.header("Securaze Wipe Check & Audit Log Alpha")
+securazeUsername = ""
 
-if st.session_state.securazeUsername != "" and st.session_state.tokenObtained == False:
-	with col1:
-		st.session_state.securazeUsername = st.text_input("Username")
-	with col2: 
-		st.session_state.securazePassword = st.text_input("Password", type="password")
-	if st.session_state.securazePassword != "" and st.session_state.securazeUsername != "":
-		try:
-			securazeLogin = {'Username': st.session_state.securazeUsername, 'Password': st.session_state.securazePassword, 'RememberMe': 'False'}
-			apiAuthLink = "https://api-us-west.securaze.com/api/auth/login"
-			securazeAPILogin = req.post(apiAuthLink, data=securazeLogin) 
-			securazeAPILoginDict = securazeAPILogin.json() # required for API Response text
-			loginYesorNoResponse = securazeAPILoginDict.get('message')
-			loginRequestRaw = securazeAPILoginDict.get('result')
-			loginResponseData = loginRequestRaw.get("data")
-		except:
-			st.toast("An unknown error has occured. Error Code: 01")
-		try:
-			loginToken = loginResponseData['Token']
-			customerData = loginResponseData.get("Customers")
-			customerZeroData = customerData[0]
-			customerName = customerZeroData['Name']
-			customerID = customerZeroData['CustomerID']
-			tokenObtained = True
-		except:
-			loginToken = ""
-			customerData = ""
-			customerZeroData = ""
-			customerName = ""
-			customerID = ""
-			tokenObtained = False
-			st.toast("Exception handled. (No action is required)")
-		if loginYesorNoResponse == "User successfully logged in.": 
-			global apiLoginSuccessful
-			apiLoginSuccessful = True
-			apiLoginComplete = True
-			st.toast(customerName + ": " + loginYesorNoResponse)
-			st.session_state.tokenObtained = True
-		else:
-			st.error("Please check your login details, press Enter, or refresh.")
-if tokenObtained == True and apiLoginComplete == True: 	
+
+with col1:
+	securazeUsername = st.text_input("Username")
+with col2: 
+	securazePassword = st.text_input("Password", type="password")
+if securazePassword != "" and securazeUsername != "":
+	try:
+		securazeLogin = {'Username': securazeUsername, 'Password': securazePassword, 'RememberMe': 'False'}
+		apiAuthLink = "https://api-us-west.securaze.com/api/auth/login"
+		securazeAPILogin = req.post(apiAuthLink, data=securazeLogin) 
+		securazeAPILoginDict = securazeAPILogin.json() # required for API Response text
+		loginYesorNoResponse = securazeAPILoginDict.get('message')
+		loginRequestRaw = securazeAPILoginDict.get('result')
+		loginResponseData = loginRequestRaw.get("data")
+	except:
+		st.toast("An unknown error has occured. Error Code: 01")
+	try:
+		loginToken = loginResponseData['Token']
+		customerData = loginResponseData.get("Customers")
+		customerZeroData = customerData[0]
+		customerName = customerZeroData['Name']
+		customerID = customerZeroData['CustomerID']
+		tokenObtained = True
+	except:
+		loginToken = ""
+		customerData = ""
+		customerZeroData = ""
+		customerName = ""
+		customerID = ""
+		tokenObtained = False
+		st.toast("Exception handled. (No action is required)")
+	if loginYesorNoResponse == "User successfully logged in.": 
+		global apiLoginSuccessful
+		apiLoginSuccessful = True
+		apiLoginComplete = True
+		st.toast(customerName + ": " + loginYesorNoResponse)
+		st.session_state.tokenObtained = True
+	else:
+		st.error("Please check your login details, press Enter, or refresh.")
 	serialNumber = st.text_input("Enter the Serial Number then press Enter")
 	try: 
 		serialSearchParams = {'CustomerID': customerID, 'SearchInput': serialNumber, 'Token': loginToken}
@@ -141,7 +141,7 @@ if tokenObtained == True and apiLoginComplete == True:
 		st.header("Wipe Check & Audit Log: Current Limitations")
 		st.write("This program could do the same things with fewer API requests.")
 		st.write("As such, it probably shouldn't be considered production-ready.")
-		st.write("I have done a partial rewrite, but I think there are still issues with variable scope.")
+		st.write("The app is buggy as it is undergoing a rewrite already.")
 		st.write("Audit logs can be manually created and saved by copy and pasting.")
 		st.write("Audit logs only consider one drive. ")
 		st.write("Additional drives must be reviewed on Securaze's dashboard.")
@@ -156,7 +156,3 @@ if tokenObtained == True and apiLoginComplete == True:
 			st.write(auditLogLine3)
 	except:
 		st.toast("Exception handled. (No action is required)")
-
-
-
-
