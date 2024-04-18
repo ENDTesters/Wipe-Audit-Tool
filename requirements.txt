@@ -1,5 +1,5 @@
 time
 streamlit
 streamlit-card
-streamlit_extras
+streamlit-extras
 requests
