@@ -22,12 +22,16 @@ if securazeUsername != "":
 		loginResponseData = loginRequestRaw.get("data")
 		try:
 			loginToken = loginResponseData['Token']
+			customerData = loginResponseData.get("Customers")
+			customerZeroData = customerData[0]
+			customerName = customerZeroData['Name']
+			customerID = customerZeroData['CustomerID']
 		except:
 			loginToken = ""
-		customerData = loginResponseData.get("Customers")
-		customerZeroData = customerData[0]
-		customerName = customerZeroData['Name']
-		customerID = customerZeroData['CustomerID']
+			customerData = ""
+			customerZeroData = ""
+			customerName = ""
+			customerID = ""
 		if loginYesorNoResponse == "User successfully logged in.": 
 			global apiLoginSuccessful
 			apiLoginSuccessful = True
