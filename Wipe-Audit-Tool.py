@@ -4,7 +4,7 @@ from streamlit_card import card
 import streamlit_extras as st_extras
 from streamlit_extras.let_it_rain import rain
 import requests as req
-st.set_page_config(page_title="Noah's Wipe Check", layout="centered")
+st.set_page_config(page_title="Securaze Wipe Check", layout="centered")
 apiLoginComplete = False
 col1, col2 = st.columns([1, 1])
 st.header("Noah's Wipe Check v1")
