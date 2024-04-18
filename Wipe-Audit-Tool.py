@@ -12,13 +12,8 @@ dateString = today.strftime("%Y-%m-%d")
 auditDate = today
 col1, col2 = st.columns([1, 1])
 tokenObtained = False
-st.session_state.securazeUsername = ""
-st.session_state.securazePassword = ""
 global wipeSucceeded
 wipeSucceeded = False
-st.session_state.securazeUsername = False
-st.session_state.securazePassword = False
-st.session_state.tokenObtained = False
 st.header("Securaze Wipe Check & Audit Log Alpha")
 with col1:
 	st.session_state.securazeUsername = st.text_input("Username")
