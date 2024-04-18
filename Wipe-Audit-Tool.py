@@ -22,7 +22,7 @@ st.session_state.tokenObtained = False
 st.header("Securaze Wipe Check & Audit Log Alpha")
 with col1:
 	st.session_state.securazeUsername = st.text_input("Username")
-if st.session_state.securazeUsername != "" and tokenObtained == False:
+if st.session_state.securazeUsername != "" and st.session_state.tokenObtained == False:
 	with col2: 
 		st.session_state.securazePassword = st.text_input("Password", type="password")
 	if st.session_state.securazePassword != "" and st.session_state.securazeUsername != "":
@@ -56,6 +56,7 @@ if st.session_state.securazeUsername != "" and tokenObtained == False:
 			apiLoginSuccessful = True
 			apiLoginComplete = True
 			st.toast(customerName + ": " + loginYesorNoResponse)
+			st.session_state.tokenObtained = True
 		else:
 			st.error("Please check your login details, press Enter, or refresh.")
 if tokenObtained == True and apiLoginComplete == True: 	
