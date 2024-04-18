@@ -4,7 +4,7 @@ from streamlit_card import card
 import streamlit_extras as st_extras
 from streamlit_extras.let_it_rain import rain
 import requests as req
-st.set_page_config(page_title="Noah's Audit Tool Test Build", layout="centered")
+st.set_page_config(page_title="Noah's Wipe Check", layout="centered")
 apiLoginComplete = False
 col1, col2 = st.columns([1, 1])
 with col1:
@@ -20,7 +20,10 @@ if securazeUsername != "":
 		loginYesorNoResponse = securazeAPILoginDict.get('message')
 		loginRequestRaw = securazeAPILoginDict.get('result')
 		loginResponseData = loginRequestRaw.get("data")
-		loginToken = loginResponseData['Token']
+		try:
+			loginToken = loginResponseData['Token']
+		except:
+			loginToken = ""
 		customerData = loginResponseData.get("Customers")
 		customerZeroData = customerData[0]
 		customerName = customerZeroData['Name']
