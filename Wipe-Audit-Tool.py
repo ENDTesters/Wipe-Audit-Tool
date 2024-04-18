@@ -53,7 +53,6 @@ if securazePassword != "" and securazeUsername != "":
 		apiLoginSuccessful = True
 		apiLoginComplete = True
 		st.toast(customerName + ": " + loginYesorNoResponse)
-		st.session_state.tokenObtained = True
 	else:
 		st.error("Please check your login details, press Enter, or refresh.")
 	serialNumber = st.text_input("Enter the Serial Number then press Enter")
