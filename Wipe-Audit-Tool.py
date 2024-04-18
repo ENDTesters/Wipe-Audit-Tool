@@ -73,6 +73,7 @@ if tokenObtained == True and apiLoginComplete == True:
 		except:
 			productID = "None"
 		try:
+			global wipeSucceeded
 			wipeSucceeded = serialSearchDict['succeeded']
 			lookupMessage = serialSearchDict['message']
 		except:
