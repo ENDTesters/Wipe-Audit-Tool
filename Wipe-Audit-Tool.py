@@ -36,7 +36,7 @@ if securazeUsername != "":
 			customerZeroData = ""
 			customerName = ""
 			customerID = ""
-			st.toast("Exception handled. (Normal)")
+			st.toast("Exception handled. (No action is required)")
 		if loginYesorNoResponse == "User successfully logged in.": 
 			global apiLoginSuccessful
 			apiLoginSuccessful = True
@@ -86,11 +86,11 @@ if securazeUsername != "":
 						)
 					except:
 						pass
-						st.toast("Exception handled. (Normal)")
+						st.toast("Exception handled. (No action is required)")
 				def wipeFail():
 					try:
 						card(
-        					title="Wipe Failed ‼❌",
+        					title="Wipe Failed ❌",
         					text="Provided Serial: " + serialNumber + " | Click for more details",
         					image="https://th.bing.com/th/id/OIP.0MzNC_IRoz_RF3SqpG3yVAHaGn?rs=1&pid=ImgDetMain",
         					url="https://us-west.securaze.com/search?searchInput=" + serialNumber,
@@ -109,7 +109,7 @@ if securazeUsername != "":
 						)
 					except:
 						pass
-						st.toast("Exception handled. (No action is required - this is expected behavior)")
+						st.toast("Exception handled. (No action is required)")
 
 				if wipeSucceeded == True:
 					wipePass()
