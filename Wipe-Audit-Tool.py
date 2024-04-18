@@ -7,7 +7,7 @@ import requests as req
 st.set_page_config(page_title="Noah's Wipe Check", layout="centered")
 apiLoginComplete = False
 col1, col2 = st.columns([1, 1])
-st.title("Noah's Wipe Check Version 1")
+st.title("Noah's Wipe Check v1")
 with col1:
 	securazeUsername = st.text_input("Username")
 if securazeUsername != "":
