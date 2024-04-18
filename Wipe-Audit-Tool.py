@@ -19,10 +19,7 @@ st.session_state.securazePassword = True
 st.session_state.tokenObtained = True
 st.header("Securaze Wipe Check & Audit Log Alpha")
 with col1:
-	if tokenObtained == True:
-		pass
-	else:
-		securazeUsername = st.text_input("Username")
+	securazeUsername = st.text_input("Username")
 #login logic
 if securazeUsername != "" and tokenObtained == False:
 	with col2: 
