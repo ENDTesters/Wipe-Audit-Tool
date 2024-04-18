@@ -14,6 +14,7 @@ col1, col2 = st.columns([1, 1])
 tokenObtained = False
 securazeUsername = ""
 securazePassword = ""
+wipeSucceded = False
 st.session_state.securazeUsername = True
 st.session_state.securazePassword = True
 st.session_state.tokenObtained = True
