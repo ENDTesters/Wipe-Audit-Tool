@@ -12,22 +12,22 @@ dateString = today.strftime("%Y-%m-%d")
 auditDate = today
 col1, col2 = st.columns([1, 1])
 tokenObtained = False
-securazeUsername = ""
-securazePassword = ""
+st.session_state.securazeUsername = ""
+st.session_state.securazePassword = ""
 global wipeSucceeded
 wipeSucceeded = False
-st.session_state.securazeUsername = True
-st.session_state.securazePassword = True
-st.session_state.tokenObtained = True
+st.session_state.securazeUsername = False
+st.session_state.securazePassword = False
+st.session_state.tokenObtained = False
 st.header("Securaze Wipe Check & Audit Log Alpha")
 with col1:
-	securazeUsername = st.text_input("Username")
-if securazeUsername != "":
+	st.session_state.securazeUsername = st.text_input("Username")
+if st.session_state.securazeUsername != "" and tokenObtained = False:
 	with col2: 
-		securazePassword = st.text_input("Password", type="password")
-	if securazePassword != "" and securazeUsername != "":
+		st.session_state.securazePassword = st.text_input("Password", type="password")
+	if st.session_state.securazePassword != "" and st.session_state.securazeUsername != "":
 		try:
-			securazeLogin = {'Username': securazeUsername, 'Password': securazePassword, 'RememberMe': 'False'}
+			securazeLogin = {'Username': st.session_state.securazeUsername, 'Password': st.session_state.securazePassword, 'RememberMe': 'False'}
 			apiAuthLink = "https://api-us-west.securaze.com/api/auth/login"
 			securazeAPILogin = req.post(apiAuthLink, data=securazeLogin) 
 			securazeAPILoginDict = securazeAPILogin.json() # required for API Response text
