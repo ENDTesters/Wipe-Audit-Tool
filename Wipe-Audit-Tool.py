@@ -86,4 +86,4 @@ if securazeUsername != "":
 					wipeFail()
 				st.toast("API Response: " + lookupMessage)
 		else:
-			st.toast("Please click the login button to renew your session.")
+			st.toast("Please check your login details or click the login button to renew your session.")
