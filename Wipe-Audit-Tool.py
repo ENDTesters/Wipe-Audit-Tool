@@ -7,6 +7,7 @@ import requests as req
 st.set_page_config(page_title="Noah's Wipe Check", layout="centered")
 apiLoginComplete = False
 col1, col2 = st.columns([1, 1])
+st.title("Noah's Wipe Check Version 1")
 with col1:
 	securazeUsername = st.text_input("Username")
 if securazeUsername != "":
@@ -67,7 +68,7 @@ if securazeUsername != "":
 					try: 
 						card(
         					title="Wipe Successful ✔️",
-        					text="Device Serial: " + serialNumber + " | Click for more details",
+        					text="Provided Serial: " + serialNumber + " | Click for more details",
         					image="https://www.fredsmithxmastrees.com/wp-content/uploads/2017/04/Square-500x500-green-264x264.png",
         					url="https://us-west.securaze.com/pc-product/details?productID=" + productID + "&type=PCProduct#2",
 							styles={
@@ -90,7 +91,7 @@ if securazeUsername != "":
 					try:
 						card(
         					title="Wipe Failed ❌",
-        					text="Device Serial: " + serialNumber + " | Click for more details",
+        					text="Provided Serial: " + serialNumber + " | Click for more details",
         					image="https://th.bing.com/th/id/OIP.0MzNC_IRoz_RF3SqpG3yVAHaGn?rs=1&pid=ImgDetMain",
         					url="https://us-west.securaze.com/search?searchInput=" + serialNumber,
 							styles={
