@@ -138,9 +138,8 @@ if securazePassword != "" and securazeUsername != "":
 			pass
 	try:
 		st.header("Wipe Check & Audit Log: Current Limitations")
-		st.write("This program could do the same things with fewer API requests.")
-		st.write("As such, it probably shouldn't be considered production-ready.")
-		st.write("The app is buggy as it is undergoing a rewrite already.")
+		st.write("Currently, the app is a little dumb and sends a lot of login API requests.")
+		st.write("It is also buggy because it is undergoing a rewrite.")
 		st.write("Audit logs can be manually created and saved by copy and pasting.")
 		st.write("Audit logs only consider one drive. ")
 		st.write("Additional drives must be reviewed on Securaze's dashboard.")
