@@ -27,13 +27,15 @@ if 'loginToken' not in st.session_state:
 	st.session_state['loginToken'] = ''
 if 'customerID' not in st.session_state:
 	st.session_state['customerID'] = ''
-if 'securazeUsername' and 'securazePassword' and 'loginToken' not in st.session_state:
-	st.session_state['userLoginCompleted'] = False
-else:
-	if '' == 'securazeUsername' or 'securazePassword' or 'loginToken' in st.session_state:
-		st.session_state['userLoginCompleted'] = False
-	else:
-		st.session_state['userLoginCompleted'] = True
+
+#check if login is successful...
+#if 'securazeUsername' and 'securazePassword' not in st.session_state:
+#	st.session_state['userLoginCompleted'] = False
+#else:
+#	if '' == 'securazeUsername' or 'securazePassword' or 'loginToken' in st.session_state:
+#		st.session_state['userLoginCompleted'] = False
+#	else:
+#		st.session_state['userLoginCompleted'] = True
 
 # Set API variables
 
@@ -63,7 +65,7 @@ try:
 		pass
 		st.success("Login Established!")
 		#mainLoop()
-	while st.session_state['userLoginCompleted'] == False:
+	else:
 		st.toast("Waiting for Authentication")
 		with st.sidebar:
 			st.session_state['securazeUsername'] = st.text_input("Username")
@@ -73,7 +75,7 @@ try:
 			if st.button("Login", use_container_width=True):
 				login()
 except:
-	st.toast("An issue may have occured during the login process.")
+	pass
 
 with st.sidebar:
 
@@ -83,9 +85,11 @@ with st.sidebar:
 		st.session_state['securazePassword'] = ''
 		st.session_state['loginToken'] = ''
 	if st.button("Debug: Login Response", use_container_width=True):
-		st.write("")
-	if st.button("Debug: Serial search", use_container_width=True):
-		st.write("")
+		pass
+	if st.button("Debug: Serial Search", use_container_width=True):
+		pass
+	if st.button("Debug: Refresh Program", use_container_width=True):
+		pass
 	if st.button("Simulate Successful Login", use_container_width=True):
 		st.session_state['userLoginCompleted'] = True
 	st.write("Loaded at " + time)
