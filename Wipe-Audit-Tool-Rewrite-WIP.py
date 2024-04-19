@@ -69,12 +69,14 @@ try:
 			st.session_state['securazeUsername'] = st.text_input("Username")
 		with st.sidebar: 
 			st.session_state['securazePassword'] = st.text_input("Password", type="password")
+		with st.sibebar:	
+			if st.button("Login", use_container_width=True):
+				login()
 except:
 	st.toast("An issue may have occured during the login process.")
 
 with st.sidebar:
-	if st.button("Login", use_container_width=True):
-		login()
+
 	if st.button("Reset Authentication", use_container_width=True):
 		st.session_state['userLoginCompleted'] = False
 		st.session_state['securazeUsername'] = ''
@@ -84,6 +86,8 @@ with st.sidebar:
 		st.write("")
 	if st.button("Debug: Serial search", use_container_width=True):
 		st.write("")
+	if st.button("Simulate Successful Login", use_container_width=True):
+		st.session_state['userLoginCompleted'] = True
 	st.write("Loaded at " + time)
 
 
@@ -93,3 +97,4 @@ st.write(st.session_state['userLoginCompleted'])
 def mainLoop(): [
 
 ]
+
