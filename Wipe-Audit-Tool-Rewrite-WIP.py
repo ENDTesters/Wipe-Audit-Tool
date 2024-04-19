@@ -27,15 +27,8 @@ if 'loginToken' not in st.session_state:
 	st.session_state['loginToken'] = ''
 if 'customerID' not in st.session_state:
 	st.session_state['customerID'] = ''
-
-#check if login is successful...
-#if 'securazeUsername' and 'securazePassword' not in st.session_state:
-#	st.session_state['userLoginCompleted'] = False
-#else:
-#	if '' == 'securazeUsername' or 'securazePassword' or 'loginToken' in st.session_state:
-#		st.session_state['userLoginCompleted'] = False
-#	else:
-#		st.session_state['userLoginCompleted'] = True
+if 'userLoginCompleted' not in st.session_state:
+	st.session_state['userLoginCompleted'] = False
 
 # Set API variables
 
@@ -52,9 +45,27 @@ def login():
 	try:
 		loginQueryParams = {'Username': st.session_state['securazeUsername'], 'Password': st.session_state['securazePassword'], 'RememberMe': 'True' }
 		securazeAPILogin = req.post(apiAuthLink, data=loginQueryParams)
-
+		securazeAPILoginDict = securazeAPILogin.json()
+		st.session_state['loginYesorNoResponse'] = securazeAPILoginDict.get('message')
+		loginRequestRaw = securazeAPILoginDict.get('result')
+		loginResponseData = loginRequestRaw.get("data")	
 		st.write(loginQueryParams)
-
+		st.header("api is being queried")
+		try:
+			loginToken = loginResponseData['Token']
+			customerData = loginResponseData.get("Customers")
+			st.session_state['customerZeroData'] = customerData[0]
+			st.session_state['customerName'] = st.session_state['customerZeroData']['Name']
+			st.session_state['customerID'] = st.session_state['customerZeroData']['CustomerID']
+			st.session_state['tokenObtained'] = True
+		except:
+			loginToken = ""
+			customerData = ""
+			st.session_state['customerZeroData'] = ""
+			st.session_state['customerName'] = ""
+			st.session_state['customerID'] = ""
+			st.session_state['tokenObtained'] = ""
+			st.toast("An error occured, but the program will continue to run. Check your login details.")
 	except:
 		pass
 
@@ -62,43 +73,42 @@ def login():
 
 try:
 	if st.session_state['userLoginCompleted'] == True:
-		pass
-		st.success("Login Established!")
+		st.toast("Login for " + st.session_state['securazeUsername'] + " remembered.")
+		st.info("Latest login response: " + st.session_state['loginYesorNoResponse'], icon=ℹ)
 		#mainLoop()
 	else:
 		st.toast("Waiting for Authentication")
-		with st.sidebar:
-			st.session_state['securazeUsername'] = st.text_input("Username")
-		with st.sidebar: 
-			st.session_state['securazePassword'] = st.text_input("Password", type="password")
-		with st.sibebar:	
-			if st.button("Login", use_container_width=True):
+
+		st.session_state['securazeUsername'] = st.text_input("Username")
+		st.session_state['securazePassword'] = st.text_input("Password", type="password")
+		if st.button("Login", use_container_width=True):
+			with st.sidebar:
 				login()
 except:
 	pass
-
+if st.session_state['loginYesorNoResponse'] == "User successfully logged in.":
+	st.session_state['userLoginCompleted'] = True
 with st.sidebar:
-
-	if st.button("Reset Authentication", use_container_width=True):
+	if st.button("Reset Login", use_container_width=True):
 		st.session_state['userLoginCompleted'] = False
 		st.session_state['securazeUsername'] = ''
 		st.session_state['securazePassword'] = ''
-		st.session_state['loginToken'] = ''
+		st.session_state['loginYesorNoResponse'] = ''
+	if st.button("Refresh", use_container_width=True):
+		pass
 	if st.button("Debug: Login Response", use_container_width=True):
 		pass
 	if st.button("Debug: Serial Search", use_container_width=True):
-		pass
-	if st.button("Debug: Refresh Program", use_container_width=True):
 		pass
 	if st.button("Simulate Successful Login", use_container_width=True):
 		st.session_state['userLoginCompleted'] = True
 	st.write("Loaded at " + time)
 
-
-st.write(st.session_state['securazeUsername'])
-st.write(st.session_state['securazePassword'])
-st.write(st.session_state['userLoginCompleted'])
+if st.session_state['userLoginCompleted'] == False:
+	userLoginCompletedStr = "False"
+else:
+	userLoginCompletedStr = "True"
+st.toast("Login Validated: " + userLoginCompletedStr)
 def mainLoop(): [
 
 ]
-
