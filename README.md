@@ -4,7 +4,7 @@ Features:
 
 	- Check if a system's drive has been wiped by MSN.
     - One click to download Work report for successful wipes.
-    - One click to generate and save a simple audit report in .txt format for successful wipes.
+    - One click to generate and save a simple audit report in .txt format.
     - One click to view device on Securaze dashboard.
 
 
