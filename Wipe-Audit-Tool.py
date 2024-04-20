@@ -42,12 +42,22 @@ apiProductLink = "https://api-us-west.securaze.com/api/products/search"
 apiLoadLink = "https://api-us-west.securaze.com/api/products/load"
 #define login function
 # check to see if the session is logged in yet or not
+if 'verboseMode' not in st.session_state:
+	st.session_state['verboseMode'] = False
+if 'showWipeCard' not in st.session_state:
+	st.session_state['showWipeCard'] = True
+	if st.session_state['verboseMode'] == True:
+		st.toast['Showing Full Wipe Card.']
 try:
 	if st.session_state['loginYesorNoResponse'] == "User successfully logged in.":
 		st.session_state['userLoginCompleted'] = True
 		userLoginCompleted = True
 except:
-	st.toast('Waiting for login.')
+	if st.session_state['verboseMode'] == True:
+		st.toast('Waiting for login.')
+if 'uiEffectsEnabled' not in st.session_state:
+			st.session_state["uiEffectsEnabled"] = True
+			st.toast("UI Effects Enabled")
 if 'is_expanded' not in st.session_state:
 	st.session_state['is_expanded'] = True
 try:
@@ -57,7 +67,7 @@ try:
 	else:
 		with st.container(border=15):
 			with st.sidebar:
-				st.session_state['securazeUsername'] = st.text_input("Username", key='user')
+				st.session_state['securazeUsername'] = st.text_input("Username", key='user', help='Format: username@organization')
 				st.session_state['securazePassword'] = st.text_input("Password", type="password", key='pass')
 				if st.button("🔓 Log In", use_container_width=True):
 					try:
@@ -96,7 +106,22 @@ except:
 if 'verboseMode' not in st.session_state:
 	st.session_state['verboseMode'] = False
 with st.sidebar:
-	if st.button('👨‍💻 Toggle Verbose Mode', use_container_width=True, help="Enable extended messaging on-screen for debug purposes."):
+	if st.button('✴️ Toggle UI Effects', use_container_width=True, help="Enable or disable emoji rain."):
+		if st.session_state["uiEffectsEnabled"] == True:
+			st.session_state["uiEffectsEnabled"] = False
+			st.toast("UI Effects Disabled")
+		else:
+			st.session_state['uiEffectsEnabled'] = True
+			st.toast("UI Effects Enabled")
+	if st.button('🗚 Compact Wipe Results', use_container_width=True, help="Enable or disable wipe report card."):
+		if st.session_state["showWipeCard"] == True:
+			st.session_state["showWipeCard"] = False
+			st.toast("Wipe result will be shown as a link.")
+		else:
+			st.session_state['showWipeCard'] = True
+			st.toast("Wipe result will be displayed using the st.card library.")
+
+	if st.button('👨‍💻 Toggle Verbose Mode', use_container_width=True, help="Extend messaging on-screen."):
 		if st.session_state['verboseMode'] == False:
 			st.toast("Enabled Verbose Mode.")
 			st.session_state['verboseMode'] = True
@@ -145,24 +170,29 @@ elif st.session_state['userLoginCompleted'] == True:
 			wipeText = "Not Found"
 			st.toast("Audit failed.")
 			try:
-				card(
-					title="Wipe Failed, Incomplete, or Not Found ❌",
-					text="Provided Serial: " + st.session_state['serialNumber'] + " | Click for more details",
-					url="https://us-west.securaze.com/search?searchInput=" + st.session_state['serialNumber'],
-					styles={
-						"card": {
-							"width": "100%",
-							"height": "300px",
-							"background-color": "red", 
+				if st.session_state['showWipeCard'] == True:	
+					card(
+						title="Wipe Failed, Incomplete, or Not Found ❌",
+						text="Provided Serial: " + st.session_state['serialNumber'] + " | Click for more details",
+						url="https://us-west.securaze.com/search?searchInput=" + st.session_state['serialNumber'],
+						styles={
+							"card": {
+								"width": "100%",
+								"height": "200px",
+								"background-color": "red", 
+								#"padding-bottom": "0px",
+							}
 						}
-					}
-				)
-				rain(
-					emoji="❌",
-					font_size=30,
-					falling_speed=8,
-					animation_length=3
-				)
+					)
+				else:
+					st.page_link(label="Wipe failed, incomplete, or not found. Click here for more details.", page="https://us-west.securaze.com/pc-product/details?productID=" + st.session_state['productID'] + "&type=PCProduct#2")
+				if st.session_state['uiEffectsEnabled'] == True:
+					rain(
+						emoji="❌",
+						font_size=30,
+						falling_speed=8,
+						animation_length=3
+					)
 				st.session_state['wipeSucceeded'] = False
 			except:
 				if st.session_state['verboseMode'] == True:
@@ -176,24 +206,29 @@ try:
 		pdfRequest = req.post(apiPDFReportDownload, data=apiPDFReportDownloadParams)
 		pdfFile = pdfRequest.content
 		try:
-			card(
-				title="Wipe Successful ✅",
-				text="Provided Serial: " + st.session_state['serialNumber'] + " | Click for more details",
-				url="https://us-west.securaze.com/pc-product/details?productID=" + st.session_state['productID'] + "&type=PCProduct#2",
-				styles={
-					"card": {
-						"width": "100%",
-						"height": "300px",
-						"background-color": "green",
+			if st.session_state['showWipeCard'] == True:
+				card(
+					title="Wipe Successful ✅",
+					text="Provided Serial: " + st.session_state['serialNumber'] + " | Click for more details",
+					url="https://us-west.securaze.com/pc-product/details?productID=" + st.session_state['productID'] + "&type=PCProduct#2",
+					styles={
+						"card": {
+							"width": "100%",
+							"height": "200px",
+							"background-color": "green",
+							"margin-bottom": "0px",
+						}
 					}
-				}
-			)
-			rain(
-				emoji="✅",
-				font_size=30,
-				falling_speed=8,
-				animation_length=3
-			)
+				)
+			else:
+				st.page_link(label="Wipe successful. Click here for more details.", page="https://us-west.securaze.com/pc-product/details?productID=" + st.session_state['productID'] + "&type=PCProduct#2")
+			if st.session_state['uiEffectsEnabled'] == True:
+				rain(
+					emoji="✅",
+					font_size=30,
+					falling_speed=8,
+					animation_length=3
+				)
 		except:
 			pass																							
 except:
