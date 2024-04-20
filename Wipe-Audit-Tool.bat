@@ -1,3 +1,3 @@
 @echo On
-streamlit run home.py
+streamlit run Wipe-Audit-Tool-0.5.py
 pause

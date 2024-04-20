@@ -59,7 +59,7 @@ try:
 			with st.sidebar:
 				st.session_state['securazeUsername'] = st.text_input("Username", key='user')
 				st.session_state['securazePassword'] = st.text_input("Password", type="password", key='pass')
-				if st.button("Login", use_container_width=True):
+				if st.button("🔓 Log In", use_container_width=True):
 					try:
 						loginQueryParams = {'Username': st.session_state['securazeUsername'], 'Password': st.session_state['securazePassword'], 'RememberMe': 'True' }
 						securazeAPILogin = req.post(apiAuthLink, data=loginQueryParams)
@@ -83,19 +83,26 @@ try:
 							loginResponseData = loginRequestRaw.get("data")	
 							if loginYesorNoResponse == "User successfully logged in.":
 								st.session_state['userLoginCompleted'] = True
-							st.toast("Username and password entered.")
+							if st.session_state['verboseMode'] == True:
+								st.toast("Username and password entered.")
 						except:
-							st.toast("An error occured, but the program will continue to run. Check your login details.")
+							with st.sidebar:
+								st.error("Failed to authenticate. Check your username and password.")
 					except:
 						st.toast("Enter your login credentials.")
 except:
-	st.toast("Test 3")
+	if st.session_state['verboseMode'] == True:
+		st.toast("An issue occured during the login process.")
+if 'verboseMode' not in st.session_state:
+	st.session_state['verboseMode'] = False
 with st.sidebar:
-	st.session_state['verboseModeIsChecked'] = st.checkbox('Verbose Mode')
-	if st.session_state['verboseModeIsChecked']:
-		st.session_state['verboseMode'] = True
-	else:
-		st.session_state['verboseMode'] = False
+	if st.button('👨‍💻 Toggle Verbose Mode', use_container_width=True, help="Enable extended messaging on-screen for debug purposes."):
+		if st.session_state['verboseMode'] == False:
+			st.toast("Enabled Verbose Mode.")
+			st.session_state['verboseMode'] = True
+		else:
+			st.toast("Disabled Verbose Mode.")
+			st.session_state['verboseMode'] = False
 
 if st.session_state['userLoginCompleted'] == False:
 	userLoginCompletedStr = "False"
@@ -158,7 +165,8 @@ elif st.session_state['userLoginCompleted'] == True:
 				)
 				st.session_state['wipeSucceeded'] = False
 			except:
-				st.toast("Wipe not found, unable to print Wipe Card")
+				if st.session_state['verboseMode'] == True:
+					st.toast("Wipe not found, unable to print Wipe Card")
 				st.session_state['wipeSucceeded'] = False
 try:
 	if st.session_state['wipeSucceeded'] == True and serialNumber == st.session_state['serialNumber']:
@@ -195,17 +203,18 @@ try:
 		st.toast("API Response: " + lookupMessage)
 except:
 	if st.session_state['verboseMode'] == True:
-		st.toast("Showing cached data if available")
+		st.toast("Showing cached data if available.")
 with st.sidebar:
-	if st.button("🔄 Force UI Update", use_container_width=True, help="Use after login or theme change."):
+	if st.button("🔄 Force UI Update", use_container_width=True, help="Use after first login or to restore latest session."):
 		pass
 	st.container()
-	if st.button("🔑 Forget Login and Start Over", use_container_width=True):
-		st.session_state['userLoginCompleted'] = False
-		st.session_state['securazeUsername'] = ''
-		st.session_state['securazePassword'] = ''
-		st.session_state['loginYesorNoResponse'] = ''
-		st.rerun()
+	if st.session_state['userLoginCompleted'] == True:
+		if st.button("🔒 Log Out", help="Forget Login and Start Over", use_container_width=True):
+			st.session_state['userLoginCompleted'] = False
+			st.session_state['securazeUsername'] = ''
+			st.session_state['securazePassword'] = ''
+			st.session_state['loginYesorNoResponse'] = ''
+			st.rerun()
 try:
 	if st.session_state['wipeSucceeded'] == True and serialNumber == st.session_state['serialNumber']:
 		try: 
@@ -221,7 +230,7 @@ try:
 			auditReport = reportLine0 + reportLine1 + reportLine2 + reportLine3 + reportLine4 + reportLine5 + reportLine6 + reportLine7
 			with st.container(border=15):
 				
-				st.download_button("↓  Download Wipe Report", type="primary", use_container_width=True, data=pdfFile, mime="application/pdf", file_name=st.session_state['serialNumber'] + "_Wipe_Report.pdf")
+				st.download_button("↓  Download Work Report", type="primary", use_container_width=True, data=pdfFile, mime="application/pdf", file_name=st.session_state['serialNumber'] + "_Work_Report.pdf")
 				st.download_button("↓  Download Audit Report", type="primary", use_container_width=True, data=auditReport, file_name=st.session_state['serialNumber'] + "_Audit_Report.txt")
 				st.link_button(label="🔬 View on Dashboard", url=st.session_state['productDetailURL'], use_container_width=True)
 				if st.button("📖 Show Audit Report", use_container_width=True):
