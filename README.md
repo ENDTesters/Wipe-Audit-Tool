@@ -56,11 +56,11 @@ Apr 19 2024 **Version 0.2:**
  
  Apr 20 2024 **Version 0.3:**
  - **Improved verbose feedback**
- - **Rename "Wipe Report" to "Work Report".**
- - **Fixed various string inconsistencies.**
+ - **Rename "Wipe Report" to "Work Report"**
+ - **Fixed various string inconsistencies**
 
 Apr 20 2024 **Version 0.4**
 - **Added toggle button in sidebar for UI effects**
 
 Apr 20 2024 **Version 0.5**
-- **Added toggle button in sidebar to enable or disable the Wipe Card UI element.**
+- **Added toggle button in sidebar to enable or disable the Wipe Card UI element**
