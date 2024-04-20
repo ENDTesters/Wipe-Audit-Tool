@@ -136,7 +136,7 @@ with st.sidebar:
 		st.session_state['verboseMode'] = True
 	else:
 		st.session_state['verboseMode'] = False
-	st.button(btn_face + "Toggle Theme", on_click=ChangeTheme, use_container_width=True)
+	st.button(btn_face + "Toggle Theme (for fun)", on_click=ChangeTheme, use_container_width=True)
 
 if st.session_state['userLoginCompleted'] == False:
 	userLoginCompletedStr = "False"
