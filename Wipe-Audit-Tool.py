@@ -90,53 +90,12 @@ try:
 						st.toast("Test 2")
 except:
 	st.toast("Test 3")
-ms = st.session_state
-if "themes" not in ms: 
-	ms.themes = {"current_theme": "light",
-					"refreshed": True,
-					
-					"light":{"theme.base": "dark",
-							"theme.backgroundColor": "black",
-							"theme.primaryColor": "#5591f5",
-							"theme.secondaryBackgroundColor": "#5591f5",
-							"theme.textColor": "white",
-							"theme.textColor": "white",
-							"button_face": "🌜"},
-
-					"dark": {"theme.base": "light",
-							"theme.backgroundColor": "#5591f5",
-							"theme.primaryColor": "grey",
-							"theme.secondaryBackgroundColor": "#82E1D7",
-							"theme.textColor": "black",
-							"button_face": "🌞"},
-					}
-  
-
-def ChangeTheme():
-	previous_theme = ms.themes["current_theme"]
-	tdict = ms.themes["light"] if ms.themes["current_theme"] == "light" else ms.themes["dark"]
-	for vkey, vval in tdict.items(): 
-		if vkey.startswith("theme"): st._config.set_option(vkey, vval)
-
-	ms.themes["refreshed"] = False
-	if previous_theme == "dark": ms.themes["current_theme"] = "light"
-	elif previous_theme == "light": ms.themes["current_theme"] = "dark"
-
-
-btn_face = ms.themes["light"]["button_face"] if ms.themes["current_theme"] == "light" else ms.themes["dark"]["button_face"]
-
-
-if ms.themes["refreshed"] == False:
-  ms.themes["refreshed"] = True
-  st.rerun()
-pass
 with st.sidebar:
 	st.session_state['verboseModeIsChecked'] = st.checkbox('Verbose Mode')
 	if st.session_state['verboseModeIsChecked']:
 		st.session_state['verboseMode'] = True
 	else:
 		st.session_state['verboseMode'] = False
-	st.button(btn_face + "Toggle Theme (for fun)", on_click=ChangeTheme, use_container_width=True)
 
 if st.session_state['userLoginCompleted'] == False:
 	userLoginCompletedStr = "False"
