@@ -6,6 +6,7 @@
 
 import time
 from datetime import date
+from datetime import timedelta
 import datetime
 import streamlit as st
 from streamlit_card import card
@@ -55,10 +56,25 @@ except:
 		st.toast('Waiting for login.')
 if 'uiEffectsEnabled' not in st.session_state:
 			st.session_state["uiEffectsEnabled"] = True
-			st.toast("UI Effects Enabled")
+			if st.session_state['userLoginCompleted'] == True:
+				st.toast("UI Effects Enabled")
 if 'is_expanded' not in st.session_state:
 	st.session_state['is_expanded'] = True
 # check to see if the session is logged in yet or not
+with st.sidebar:
+	st.header("Useful Links")
+	st.link_button(label='🖥️ Securaze Dashboard', url="https://us-west.securaze.com/products/pc-products", help="US West Dashboard", use_container_width=True)
+	st.link_button(label="🍎 EveryMac", use_container_width=True, url="https://everymac.com/", help="EveryMac serial lookup")
+	st.link_button(label="🍎 Apple Warranty Check", use_container_width=True, url="https://checkcoverage.apple.com/", help="Apple Check Coverage")
+	st.link_button(label="💻 Lenovo Support", use_container_width=True, url="https://support.lenovo.com/us/en/", help="Lenovo Support EN-US Main Page")
+	st.link_button(label="💻 Lenovo PSREF", help="Product Specs Reference", use_container_width=True, url="https://psref.lenovo.com/")
+	st.link_button(label="💻 Dell Support", use_container_width=True, url="https://www.dell.com/support/home/en-us", help="Dell Support EN-US")
+	try:
+		if st.session_state['customerName'] == "GEODIS":
+			st.link_button(label="🌐 GEODIS Web WMS", use_container_width=True, url="https://wemea-geodis-wms-log5.extranet.geodis.org", help="Geodis Warehouse Management System (Altesse)")
+			st.link_button(label="🌐 GEODIS Reverse Visibility", use_container_width=True, url="https://geodis-reverse-visibility.extranet.geodis.org", help="Geodis Reverse Visibility")
+	except:
+		pass
 try:
 	
 	if st.session_state['userLoginCompleted'] == True:
@@ -94,6 +110,7 @@ try:
 								st.session_state['userLoginCompleted'] = True
 							if st.session_state['verboseMode'] == True:
 								st.toast("Username and password entered.")
+							st.toast("Click Save Credentials Immediately to hide the login prompt.")
 						except:
 							with st.sidebar:
 								st.error("Failed to authenticate. Check your username and password.")
@@ -104,29 +121,31 @@ except:
 		st.toast("An issue occured during the login process.")
 if 'verboseMode' not in st.session_state:
 	st.session_state['verboseMode'] = False
-with st.sidebar:
-	if st.button('✴️ Toggle UI Effects', use_container_width=True, help="Enable or disable emoji rain."):
-		if st.session_state["uiEffectsEnabled"] == True:
-			st.session_state["uiEffectsEnabled"] = False
-			st.toast("UI Effects Disabled")
-		else:
-			st.session_state['uiEffectsEnabled'] = True
-			st.toast("UI Effects Enabled")
-	if st.button('🗚 Compact Wipe Results', use_container_width=True, help="Enable or disable wipe report card."):
-		if st.session_state["showWipeCard"] == True:
-			st.session_state["showWipeCard"] = False
-			st.toast("Wipe result will be shown as a link.")
-		else:
-			st.session_state['showWipeCard'] = True
-			st.toast("Wipe result will be displayed using the st.card library.")
+if st.session_state['userLoginCompleted'] == True:
+	with st.sidebar:
+		st.header("Settings")
+		if st.button('✴️ Toggle UI Effects', use_container_width=True, help="Enable or disable emoji rain."):
+			if st.session_state["uiEffectsEnabled"] == True:
+				st.session_state["uiEffectsEnabled"] = False
+				st.toast("UI Effects Disabled")
+			else:
+				st.session_state['uiEffectsEnabled'] = True
+				st.toast("UI Effects Enabled")
+		if st.button('🗚 Compact Wipe Results', use_container_width=True, help="Enable or disable wipe report card."):
+			if st.session_state["showWipeCard"] == True:
+				st.session_state["showWipeCard"] = False
+				st.toast("Wipe result will be shown as a link.")
+			else:
+				st.session_state['showWipeCard'] = True
+				st.toast("Wipe result will be displayed using the st.card library.")
 
-	if st.button('👨‍💻 Toggle Verbose Mode', use_container_width=True, help="Extend messaging on-screen."):
-		if st.session_state['verboseMode'] == False:
-			st.toast("Enabled Verbose Mode.")
-			st.session_state['verboseMode'] = True
-		else:
-			st.toast("Disabled Verbose Mode.")
-			st.session_state['verboseMode'] = False
+		if st.button('👨‍💻 Toggle Verbose Mode', use_container_width=True, help="Extend messaging on-screen."):
+			if st.session_state['verboseMode'] == False:
+				st.toast("Enabled Verbose Mode.")
+				st.session_state['verboseMode'] = True
+			else:
+				st.toast("Disabled Verbose Mode.")
+				st.session_state['verboseMode'] = False
 
 if st.session_state['userLoginCompleted'] == False:
 	userLoginCompletedStr = "False"
@@ -146,6 +165,8 @@ elif st.session_state['userLoginCompleted'] == True:
 			DiskDrive1Serial = DiskDrive1Data["SerialNumber"]
 			DiskDrive1SmartScore = DiskDrive1Data["SmartScore"]
 			DiskDrive1OverallSmartState = DiskDrive1Data["OverallState"]
+			DiskDrive1WipeMethod = DiskDrive1Data["WipeMethod"]
+			DiskDrive1Model = DiskDrive1Data["ComponentModel"]
 			productID = serialSearchResultsData["ProductID"]
 			productDetailURL = "https://us-west.securaze.com/pc-product/details?productID=" + productID + "&type=PCProduct"
 			wipeSucceeded = serialSearchDict['succeeded']
@@ -161,6 +182,8 @@ elif st.session_state['userLoginCompleted'] == True:
 			st.session_state['DiskDrive1Serial'] = DiskDrive1Serial
 			st.session_state['DiskDrive1SmartScore'] = DiskDrive1SmartScore
 			st.session_state['DiskDrive1OverallSmartState'] = DiskDrive1OverallSmartState
+			st.session_state['DiskDrive1WipeMethod'] = DiskDrive1WipeMethod
+			st.session_state['DiskDrive1Model'] = DiskDrive1Model
 			st.session_state['productID'] = productID
 			st.session_state['productDetailURL'] = productDetailURL
 			st.session_state['wipeSucceeded'] = wipeSucceeded
@@ -172,7 +195,7 @@ elif st.session_state['userLoginCompleted'] == True:
 				if st.session_state['showWipeCard'] == True:	
 					card(
 						title="Wipe Failed, Incomplete, or Not Found ❌",
-						text="Provided Serial: " + st.session_state['serialNumber'] + " | Click for more details",
+						text="Provided Serial: " + st.session_state['serialNumber'] + " | Click to audit manually",
 						url="https://us-west.securaze.com/search?searchInput=" + st.session_state['serialNumber'],
 						styles={
 							"card": {
@@ -238,38 +261,47 @@ try:
 except:
 	if st.session_state['verboseMode'] == True:
 		st.toast("Showing cached data if available.")
-with st.sidebar:
-	if st.button("🔄 Force UI Update", use_container_width=True, help="Use after first login or to restore latest session."):
-		pass
-	st.container()
-	if st.session_state['userLoginCompleted'] == True:
-		if st.button("🔒 Log Out", help="Forget Login and Start Over", use_container_width=True):
-			st.session_state['userLoginCompleted'] = False
-			st.session_state['securazeUsername'] = ''
-			st.session_state['securazePassword'] = ''
-			st.session_state['loginYesorNoResponse'] = ''
-			st.rerun()
+if st.session_state['userLoginCompleted'] == True:
+	with st.sidebar:
+		if st.button("🔄 Save Credentials Immediately", use_container_width=True, help="Use after logging in to hide the login prompt."):
+			pass
+		if st.button("🔄 Restore Last State", use_container_width=True, help="Use to restore the last device's information."):
+			pass
+		st.container()
+		if st.session_state['userLoginCompleted'] == True:
+			if st.button("🔒 Log Out", help="Forget Login and Start Over", use_container_width=True):
+				st.session_state['userLoginCompleted'] = False
+				st.session_state['securazeUsername'] = ''
+				st.session_state['securazePassword'] = ''
+				st.session_state['loginYesorNoResponse'] = ''
+				st.rerun()
 try:
 	if st.session_state['wipeSucceeded'] == True and serialNumber == st.session_state['serialNumber']:
 		try: 
 			reportLine0 = "Audit Report  \n"
 			reportLine1 = "Device Serial: " + st.session_state['serialNumber'] + "  \n"
 			reportLine2 = "Wipe Successful: Yes  \n"
-			reportLine3 = "Audit Date: " + auditDate + "  \n"
-			reportLine4 = "Drive Brand: " + st.session_state['DiskDrive1Brand'] + "  \n"
-			reportLine5 = "Drive Serial: " + st.session_state['DiskDrive1Serial'] + "  \n"
-			reportLine6 = "Drive Health Description: " + st.session_state['DiskDrive1OverallSmartState'] + "  \n"
-			reportLine7 = "Drive Health Percentage: " + str(st.session_state['DiskDrive1SmartScore']) + "%  \n"
-			reportLine8 = "Wipe Method: "
-			auditReport = reportLine0 + reportLine1 + reportLine2 + reportLine3 + reportLine4 + reportLine5 + reportLine6 + reportLine7
+			reportLine3 = "Wipe Method: " + st.session_state['DiskDrive1WipeMethod'] + "  \n"
+			reportLine4 = "Audit Date: " + auditDate + "  \n"
+			reportLine5 = "Drive Brand: " + st.session_state['DiskDrive1Brand'] + "  \n"
+			reportLine6 = "Drive Model: " + st.session_state['DiskDrive1Model'] + "  \n"
+			reportLine7 = "Drive Serial: " + st.session_state['DiskDrive1Serial'] + "  \n"
+			reportLine8 = "Drive Health Description: " + st.session_state['DiskDrive1OverallSmartState'] + "  \n"
+			reportLine9 = "Drive Health Percentage: " + str(st.session_state['DiskDrive1SmartScore']) + "%  \n"
+			auditReport = reportLine0 + reportLine1 + reportLine2 + reportLine3 + reportLine4 + reportLine5 + reportLine6 + reportLine7 + reportLine8 + reportLine9
 			with st.container(border=15):
 				
 				st.download_button("↓  Download Work Report", type="primary", use_container_width=True, data=pdfFile, mime="application/pdf", file_name=st.session_state['serialNumber'] + "_Work_Report.pdf")
 				st.download_button("↓  Download Audit Report", type="primary", use_container_width=True, data=auditReport, file_name=st.session_state['serialNumber'] + "_Audit_Report.txt")
 				st.link_button(label="🔬 View on Dashboard", url=st.session_state['productDetailURL'], use_container_width=True)
-				if st.button("📖 Show Audit Report", use_container_width=True):
+				if st.button("📖 Show Audit Details", use_container_width=True):
 					st.markdown(auditReport)
+				try:
+					if st.button("Show Full API Response (Advanced)", use_container_width=True):
+						st.write(st.session_state['DiskDrive1Data'])
+				except:
+					pass
 		except:
-			pass
+			st.toast("Something went wrong when processing the API response. Please use the Securaze Dashboard to fall back.")
 except:
 	pass

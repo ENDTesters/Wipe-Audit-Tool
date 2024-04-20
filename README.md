@@ -1,10 +1,11 @@
 
+
 # Securaze Wipe Audit Tool
 Features:
 
 	- Check if a system's drive has been wiped by MSN.
     - One click to download Work report for successful wipes.
-    - One click to generate and save a simple audit report in .txt format.
+    - One click to generate and save a simple audit report in .txt format for successful wipes.
     - One click to view device on Securaze dashboard.
 
 
@@ -22,45 +23,45 @@ Or, use locally on Windows:
  5. Open a terminal and cd to your code directory.
  6. Type "streamlit run Wipe-Audit-Tool.py" and press Enter.  
  
-
-
-# Libraries
-|streamlit|streamlit-card|streamlit-extras|requests|
-|--|--|--|--|
-|Web UI for Python|Wipe Pass or Fail Card|Screen Effects| API HTTPS Requests|
 # Known Issues
 **Severity:** Mild  
 
-When user login is complete, the login UI remains visible in the sidebar until the next UI refresh.
+When user login is complete, the login UI remains visible in the sidebar until the next UI refresh.  
 
-**Severity:** Mild  
+**Severity:** Moderate  
 
-No "return" key handling. The tool is designed to be used with the mouse or tab keys.
-# Current Limitations
-Only single-disk machines have been tested so far.
-Audit report can only be generated if the wipe is successful.
-Audit reports must be manually generated.
-Audit reports are stored locally, not on the cloud.
-# Potential Features
-Add WMS integration.
-Parse work report .pdf to extract more information.
+No "return" key handling, annoying during logon. The tool is best used with the mouse and/or tab navigation.  
+# Limitations
+Only single-disk machines have been tested so far.  
+Audit report can only be generated if the wipe is successful.  
+Audit reports must be manually generated.  
+Audit reports are stored locally, not on the cloud.  
+
 # Changelog
-Apr 18 2024 **Version 0.1:**
+Apr 18 2024 **Version 0.1 - 0.7**
+ - **Initial Development**
 
- - **Initial Release**
-
-Apr 19 2024 **Version 0.2:**
+Apr 19 2024 **Version 0.8 Pre-Test**
  - **Rewrote to improve logic flow**
  - **Fixed redundant API requests**
  - **Reworked UI to include sidebar**
  
- Apr 20 2024 **Version 0.3:**
+ Apr 20 2024 **Version 0.8 Pre-Test**
  - **Improved verbose feedback**
  - **Rename "Wipe Report" to "Work Report"**
  - **Fixed various string inconsistencies**
-
-Apr 20 2024 **Version 0.4**
+ - **Fixed some UI elements appearing too early**
+- **Added toggle button in sidebar for Wipe Card element**
 - **Added toggle button in sidebar for UI effects**
+- **Added Useful Links section to sidebar**
+- **Added organization-specific links**
 
-Apr 20 2024 **Version 0.5**
-- **Added toggle button in sidebar to enable or disable the Wipe Card UI element**
+**Next: Test in Production**
+# Libraries
+|streamlit|streamlit-card|streamlit-extras|requests|
+|--|--|--|--|
+|Web UI for Python|Wipe Pass or Fail Card|Screen Effects| API HTTPS Requests|
+# Potential Features
+Add WMS integration.  
+Parse work report .pdf to extract more information.  
+More features would be added to a seperate tab to keep execution time reasonable.  
