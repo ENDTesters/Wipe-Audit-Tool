@@ -19,7 +19,7 @@ Or, use locally on Windows:
  3. Extract the code to a directory of your choice.
  4. Run requirements.bat to install dependencies.
  5. Open a terminal in your directory of choice.
- 6. > streamlit run script.py
+ 6. > streamlit run Wipe-Audit-Tool.py
 
 # Libraries
 |streamlit|streamlit-card|streamlit-extras|requests|
