@@ -1,8 +1,6 @@
 # Wipe Audit Tool Version 0.5
 # Written by Noah Dailey
-# Usable by any company that uses Securaze Work on computer systems
-# Still learning to program... some stuff is done inefficiently
-# However, the program's scope is pretty simple, and its' functionality should be fairly complete at this point.
+# Usable by anyone who uses Securaze
 
 # Requirements
 
@@ -18,7 +16,7 @@ now = datetime.datetime.now()
 today = date.today()
 auditDate = today.strftime("%Y-%m-%d")
 time = now.strftime("%H:%M:%S")
-st.set_page_config(page_title="Securaze Wipe Check & Audit Log Alpha", layout="centered")
+st.set_page_config(page_title="Securaze Wipe Check & Audit Log Test Build", layout="centered")
 col1, col2 = st.columns([1, 1])
 		
 # Set cross-run variables to 'unassigned' string if they aren't assigned,
@@ -35,13 +33,13 @@ if 'customerID' not in st.session_state:
 if 'userLoginCompleted' not in st.session_state:
 	st.session_state['userLoginCompleted'] = False
 
-# Set API variables
+# Set API link addresses
 
 apiAuthLink = "https://api-us-west.securaze.com/api/auth/login"
 apiProductLink = "https://api-us-west.securaze.com/api/products/search"
 apiLoadLink = "https://api-us-west.securaze.com/api/products/load"
-#define login function
-# check to see if the session is logged in yet or not
+
+
 if 'verboseMode' not in st.session_state:
 	st.session_state['verboseMode'] = False
 if 'showWipeCard' not in st.session_state:
@@ -60,6 +58,7 @@ if 'uiEffectsEnabled' not in st.session_state:
 			st.toast("UI Effects Enabled")
 if 'is_expanded' not in st.session_state:
 	st.session_state['is_expanded'] = True
+# check to see if the session is logged in yet or not
 try:
 	
 	if st.session_state['userLoginCompleted'] == True:
@@ -67,7 +66,7 @@ try:
 	else:
 		with st.container(border=15):
 			with st.sidebar:
-				st.session_state['securazeUsername'] = st.text_input("Username", key='user', help='Format: username@organization')
+				st.session_state['securazeUsername'] = st.text_input("Username", key='user', help='username@organization')
 				st.session_state['securazePassword'] = st.text_input("Password", type="password", key='pass')
 				if st.button("🔓 Log In", use_container_width=True):
 					try:
