@@ -8,18 +8,18 @@ Features:
 
 
 # Usage
-**Recommended:**
-Use on the Web:
+**Recommended:**  
+Use on the Web:  
 [Wipe Audit Tool @ Streamlit Community Cloud](https://wipecheck.streamlit.app/)
 
 Or, use locally on Windows:
 
- 1. Install Python 3.11.3 or Higher
+ 1. Install Python 3.11.3 or higher.
  2. Download code as a .zip file.
  3. Extract the code to a directory of your choice.
  4. Run requirements.bat to install dependencies.
- 5. Open a terminal in your directory of choice.
- 6. > streamlit run Wipe-Audit-Tool.py
+ 5. Open a terminal and cd to your code directory.
+ 6. Type "streamlit run Wipe-Audit-Tool.py" and press Enter.
 
 # Libraries
 |streamlit|streamlit-card|streamlit-extras|requests|
