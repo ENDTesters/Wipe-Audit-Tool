@@ -87,7 +87,7 @@ try:
 						except:
 							st.toast("An error occured, but the program will continue to run. Check your login details.")
 					except:
-						st.toast("Test 2")
+						st.toast("Enter your login credentials.")
 except:
 	st.toast("Test 3")
 with st.sidebar:
