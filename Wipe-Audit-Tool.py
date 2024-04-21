@@ -17,12 +17,9 @@ now = datetime.datetime.now()
 today = date.today()
 auditDate = today.strftime("%Y-%m-%d")
 time = now.strftime("%H:%M:%S")
+#start streamlit
 st.set_page_config(page_title="Securaze Wipe Check & Audit Log Test Build", layout="centered")
 col1, col2 = st.columns([1, 1])
-		
-# Set cross-run variables to 'unassigned' string if they aren't assigned,
-# establish variables that help the rest of the program query
-
 if 'securazeUsername' not in st.session_state:
 	st.session_state['securazeUsername'] = ''
 if 'securazePassword' not in st.session_state:
@@ -33,20 +30,17 @@ if 'customerID' not in st.session_state:
 	st.session_state['customerID'] = ''
 if 'userLoginCompleted' not in st.session_state:
 	st.session_state['userLoginCompleted'] = False
-
 # Set API link addresses
-
 apiAuthLink = "https://api-us-west.securaze.com/api/auth/login"
 apiProductLink = "https://api-us-west.securaze.com/api/products/search"
 apiLoadLink = "https://api-us-west.securaze.com/api/products/load"
-
-
 if 'verboseMode' not in st.session_state:
 	st.session_state['verboseMode'] = False
 if 'showWipeCard' not in st.session_state:
 	st.session_state['showWipeCard'] = True
 	if st.session_state['verboseMode'] == True:
 		st.toast['Showing Full Wipe Card.']
+# check to see if user was logged earlier in the session
 try:
 	if st.session_state['loginYesorNoResponse'] == "User successfully logged in.":
 		st.session_state['userLoginCompleted'] = True
@@ -61,7 +55,7 @@ if 'uiEffectsEnabled' not in st.session_state:
 				st.toast("UI Effects Enabled")
 if 'is_expanded' not in st.session_state:
 	st.session_state['is_expanded'] = True
-# check to see if the session is logged in yet or not
+
 with st.sidebar:
 	st.header("Useful Links")
 	st.link_button(label='🖥️ Securaze Dashboard', url="https://us-west.securaze.com/products/pc-products", help="US West Dashboard", use_container_width=True)
@@ -136,7 +130,7 @@ if st.session_state['userLoginCompleted'] == True:
 			else:
 				st.session_state['uiEffectsEnabled'] = True
 				st.toast("UI Effects Enabled")
-		if st.button('🗚 Compact Wipe Results', use_container_width=True, help="Enable or disable wipe report card."):
+		if st.button('🗚 Wipe Result Display Size', use_container_width=True, help="Useful when running in a small window."):
 			if st.session_state["showWipeCard"] == True:
 				st.session_state["showWipeCard"] = False
 				st.toast("Wipe result will be shown as a link.")
