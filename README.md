@@ -7,11 +7,12 @@
     - One click to download Work report for successful wipes.
     - One click to generate and save a simple .txt audit report.
     - One click to view device on Securaze dashboard.
-    - Convenient links to manufacturer support pages.
+    - Convenient links to manufacturer support pages
+    - Unique links for GEODIS
 
 
 ## Usage
-➡️ **Recommended**  
+➡️ **Recommended**  ⬅️
 Use on the Web:  
 [Wipe Audit Tool @ Streamlit Community Cloud](https://wipecheck.streamlit.app/)
 

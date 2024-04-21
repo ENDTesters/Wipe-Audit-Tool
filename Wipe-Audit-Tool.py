@@ -18,7 +18,12 @@ today = date.today()
 auditDate = today.strftime("%Y-%m-%d")
 time = now.strftime("%H:%M:%S")
 #start streamlit
-st.set_page_config(page_title="Securaze Wipe Check & Audit Log Test Build", layout="centered", page_icon=💽)
+st.set_page_config(
+    page_title="Securaze Wipe Check & Audit Log Test Build", 
+	layout="centered", 
+	page_icon="💽",
+	initial_sidebar_state="expanded",
+	)
 col1, col2 = st.columns([1, 1])
 if 'securazeUsername' not in st.session_state:
 	st.session_state['securazeUsername'] = ''
