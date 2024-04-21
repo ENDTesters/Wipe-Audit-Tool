@@ -7,8 +7,7 @@
     - One click to download Work report for successful wipes.
     - One click to generate and save a simple .txt audit report.
     - One click to view device on Securaze dashboard.
-    - Convenient links to manufacturer support pages
-    - Unique links for GEODIS
+    - Convenient links to manufacturer support pages.
 
 
 ## Usage
