@@ -11,7 +11,7 @@
 
 
 ## Usage
-➡️ **Recommended**  ⬅️
+➡️ **Recommended**  
 Use on the Web:  
 [Wipe Audit Tool @ Streamlit Community Cloud](https://wipecheck.streamlit.app/)
 
