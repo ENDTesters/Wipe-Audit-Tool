@@ -12,7 +12,7 @@
 ## Usage
 ➡️ **Recommended**  ⬅️
 Use on the Web:  
-[Wipe Audit Tool @ Streamlit Community Cloud](https://wipecheck.streamlit.app/)
+[Wipe Audit Tool @ Streamlit Community Cloud](https://wipe-audit-tool.streamlit.app/)
 
 Or, use locally on Windows:
 
