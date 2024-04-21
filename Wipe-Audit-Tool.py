@@ -53,6 +53,7 @@ try:
 		userLoginCompleted = True
 except:
 	if st.session_state['verboseMode'] == True:
+
 		st.toast('Waiting for login.')
 if 'uiEffectsEnabled' not in st.session_state:
 			st.session_state["uiEffectsEnabled"] = True
@@ -75,6 +76,7 @@ with st.sidebar:
 			st.link_button(label="🌐 GEODIS Reverse Visibility", use_container_width=True, url="https://geodis-reverse-visibility.extranet.geodis.org", help="Geodis Reverse Visibility")
 	except:
 		pass
+resetLogin = False
 try:
 	
 	if st.session_state['userLoginCompleted'] == True:
@@ -83,8 +85,9 @@ try:
 		with st.container(border=15):
 			with st.sidebar:
 				st.session_state['securazeUsername'] = st.text_input("Username", key='user', help='username@organization')
-				st.session_state['securazePassword'] = st.text_input("Password", type="password", key='pass')
-				if st.button("🔓 Log In", use_container_width=True):
+				securazePassword = st.text_input("Password", type="password", key='pass')
+				st.session_state['securazePassword'] = securazePassword
+				if st.button("🔓 Log In", use_container_width=True) or securazePassword:
 					try:
 						loginQueryParams = {'Username': st.session_state['securazeUsername'], 'Password': st.session_state['securazePassword'], 'RememberMe': 'True' }
 						securazeAPILogin = req.post(apiAuthLink, data=loginQueryParams)
@@ -93,6 +96,7 @@ try:
 						st.session_state['loginYesorNoResponse'] = securazeAPILoginDict.get('message')
 						loginRequestRaw = securazeAPILoginDict.get('result')
 						loginResponseData = loginRequestRaw.get("data")	
+						resetLogin = True
 						try:
 							st.session_state['loginToken'] = loginResponseData['Token']
 							st.session_state['customerData'] = loginResponseData.get("Customers")
@@ -109,13 +113,14 @@ try:
 							if loginYesorNoResponse == "User successfully logged in.":
 								st.session_state['userLoginCompleted'] = True
 							if st.session_state['verboseMode'] == True:
-								st.toast("Username and password entered.")
-							st.toast("Click Save Credentials Immediately to hide the login prompt.")
+								st.toast("**API QUERY RETURNED SUCCESSFUL.**")
 						except:
 							with st.sidebar:
 								st.error("Failed to authenticate. Check your username and password.")
+								st.toast("**API QUERY SENT BUT RECEIVED INCORRECT RESPONSE**")
 					except:
 						st.toast("Enter your login credentials.")
+
 except:
 	if st.session_state['verboseMode'] == True:
 		st.toast("An issue occured during the login process.")
@@ -263,11 +268,10 @@ except:
 		st.toast("Showing cached data if available.")
 if st.session_state['userLoginCompleted'] == True:
 	with st.sidebar:
-		if st.button("🔄 Save Credentials Immediately", use_container_width=True, help="Use after logging in to hide the login prompt."):
-			pass
 		if st.button("🔄 Restore Last State", use_container_width=True, help="Use to restore the last device's information."):
 			pass
-		st.container()
+		if resetLogin == True:
+			st.rerun()
 		if st.session_state['userLoginCompleted'] == True:
 			if st.button("🔒 Log Out", help="Forget Login and Start Over", use_container_width=True):
 				st.session_state['userLoginCompleted'] = False
@@ -290,17 +294,18 @@ try:
 			reportLine9 = "Drive Health Percentage: " + str(st.session_state['DiskDrive1SmartScore']) + "%  \n"
 			auditReport = reportLine0 + reportLine1 + reportLine2 + reportLine3 + reportLine4 + reportLine5 + reportLine6 + reportLine7 + reportLine8 + reportLine9
 			with st.container(border=15):
-				
 				st.download_button("↓  Download Work Report", type="primary", use_container_width=True, data=pdfFile, mime="application/pdf", file_name=st.session_state['serialNumber'] + "_Work_Report.pdf")
 				st.download_button("↓  Download Audit Report", type="primary", use_container_width=True, data=auditReport, file_name=st.session_state['serialNumber'] + "_Audit_Report.txt")
 				st.link_button(label="🔬 View on Dashboard", url=st.session_state['productDetailURL'], use_container_width=True)
 				if st.button("📖 Show Audit Details", use_container_width=True):
 					st.markdown(auditReport)
-				try:
-					if st.button("Show Full API Response (Advanced)", use_container_width=True):
-						st.write(st.session_state['DiskDrive1Data'])
-				except:
-					pass
+		except:
+			pass
+		try:
+			with st.expander("Full API Response (Advanced)"):
+				st.write(st.session_state['DiskDrive1Data'])
+
+
 		except:
 			st.toast("Something went wrong when processing the API response. Please use the Securaze Dashboard to fall back.")
 except:
