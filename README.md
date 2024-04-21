@@ -8,8 +8,6 @@
     - One click to generate and save a simple .txt audit report.
     - One click to view device on Securaze dashboard.
     - Convenient links to manufacturer support pages
-    - Unique links for GEODIS
-
 
 ## Usage
 ➡️ **Recommended**  ⬅️
@@ -45,7 +43,7 @@ Apr 19 2024 **Version 0.7 Pre-Test**
  - **🛠️ Fixed redundant API requests**
  - **🆕 Reworked UI to include sidebar**
  
- Apr 20 2024 **Version 0.8 Rolling Pre-Test**
+ Apr 20 2024 **Version 0.8 Rolling**
 - **🏗️ Improved verbose feedback**
 - **✏️ Renamed "Wipe Report" to "Work Report"**
 - **🛠️ Fixed various string inconsistencies**
@@ -56,7 +54,11 @@ Apr 19 2024 **Version 0.7 Pre-Test**
 - **🆕 Added organization-specific links**
 - **✨ Polished login functionality**
 
-**Next: Test in Production**
+ Apr 21 2024 **Version 0.8 Rolling 2**
+- **🆕 Added favicon**
+- **✨ Improved user experience**  
+   
+**Next: Test**
 ## Libraries
 |streamlit|streamlit-card|streamlit-extras|requests|
 |--|--|--|--|
