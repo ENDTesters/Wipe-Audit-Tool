@@ -30,8 +30,8 @@ No "return"/"enter" key handling during main program.
 *Workaround:*   
 Use the mouse to click the "🔍 Audit" button.
 ## Limitations
-💽 Only single-disk machines have been tested so far.  
-🗒️ Audit report can only be generated if the wipe is successful.  
+💽 Most functionality is limited to single-disk machines.
+🗒️ Audit report can only be generated if the wipe is successful on a single-disk machine.
 🗒️ Audit reports are stored locally, not on the cloud.  
 
 ## Changelog
@@ -57,6 +57,7 @@ Apr 19 2024 **Version 0.7 Pre-Test**
  Apr 21 2024 **Version 0.8 Rolling 2**
 - **🆕 Added favicon**
 - **✨ Improved user experience**  
+- **🏗️ Added a check to see if multiple drives are installed.**  
    
 **Next: Test**
 ## Libraries

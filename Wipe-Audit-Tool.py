@@ -42,9 +42,9 @@ apiLoadLink = "https://api-us-west.securaze.com/api/products/load"
 if 'verboseMode' not in st.session_state:
 	st.session_state['verboseMode'] = False
 if 'showWipeCard' not in st.session_state:
-	st.session_state['showWipeCard'] = True
+	st.session_state['showWipeCard'] = False
 	if st.session_state['verboseMode'] == True:
-		st.toast['Showing Full Wipe Card.']
+		st.toast['Showing compact wipe results.']
 # check to see if user was logged earlier in the session
 try:
 	if st.session_state['loginYesorNoResponse'] == "User successfully logged in.":
@@ -155,8 +155,9 @@ if st.session_state['userLoginCompleted'] == False:
 	userLoginCompletedStr = "False"
 elif st.session_state['userLoginCompleted'] == True:
 	userLoginCompletedStr = "True"
-	serialNumber = st.text_input("Enter the Serial Number then Click Audit")
-	if st.button('🔍 Audit', use_container_width=True, help="Click to check if the entered serial has been wiped."):
+	with st.container(border=15):
+		serialNumber = st.text_input("Enter serial number then click 🔍 **Audit**")
+	if st.button('🔍 **Audit**', use_container_width=True, help="Click to check if the entered serial has been wiped.") and serialNumber != "":
 		try:
 			st.session_state['serialNumber'] = serialNumber
 			serialSearchParams = {'CustomerID': st.session_state['customerID'], 'SearchInput': st.session_state['serialNumber'], 'Token': st.session_state['loginToken']}
@@ -171,6 +172,7 @@ elif st.session_state['userLoginCompleted'] == True:
 			DiskDrive1OverallSmartState = DiskDrive1Data["OverallState"]
 			DiskDrive1WipeMethod = DiskDrive1Data["WipeMethod"]
 			DiskDrive1Model = DiskDrive1Data["ComponentModel"]
+			DiskDrive1WipeStatus = DiskDrive1Data["WipeStatus"]
 			productID = serialSearchResultsData["ProductID"]
 			productDetailURL = "https://us-west.securaze.com/pc-product/details?productID=" + productID + "&type=PCProduct"
 			wipeSucceeded = serialSearchDict['succeeded']
@@ -191,27 +193,34 @@ elif st.session_state['userLoginCompleted'] == True:
 			st.session_state['productID'] = productID
 			st.session_state['productDetailURL'] = productDetailURL
 			st.session_state['wipeSucceeded'] = wipeSucceeded
-			st.toast("Audit successful.")
+			st.session_state['DiskDrive1WipeStatus'] = DiskDrive1WipeStatus
+			st.toast("Response received from server.")
+			if 1 not in serialSearchResultsData['DiskDrives']:
+				st.session_state['onlyOneDrive'] = True
 		except:
 			wipeText = "Not Found"
 			st.toast("Audit failed.")
 			try:
 				if st.session_state['showWipeCard'] == True:	
 					card(
-						title="Wipe Failed, Incomplete, or Not Found ❌",
+						title="Wipe not found ❌",
 						text="Provided Serial: " + st.session_state['serialNumber'] + " | Click to audit manually",
 						url="https://us-west.securaze.com/search?searchInput=" + st.session_state['serialNumber'],
 						styles={
 							"card": {
 								"width": "100%",
 								"height": "200px",
-								"background-color": "red", 
-								#"padding-bottom": "0px",
+								"background-color": "red",
+								"margin-bottom": "0px",
+								"margin-top": "30px",
+								"padding-bottom": "0px",
+								"padding-top": "0px",
 							}
 						}
 					)
 				else:
-					st.page_link(label="Wipe failed, incomplete, or not found. Click here for more details.", page="https://us-west.securaze.com/pc-product/details?productID=" + st.session_state['productID'] + "&type=PCProduct#2")
+					with st.container(border=15):
+						st.page_link(label="**❌ Wipe failed, incomplete, or not found.** Click here for more details.", page="https://us-west.securaze.com/pc-product/details?productID=" + st.session_state['productID'] + "&type=PCProduct#2")
 				if st.session_state['uiEffectsEnabled'] == True:
 					rain(
 						emoji="❌",
@@ -225,7 +234,7 @@ elif st.session_state['userLoginCompleted'] == True:
 					st.toast("Wipe not found, unable to print Wipe Card")
 				st.session_state['wipeSucceeded'] = False
 try:
-	if st.session_state['wipeSucceeded'] == True and serialNumber == st.session_state['serialNumber']:
+	if st.session_state['wipeSucceeded'] == True and serialNumber == st.session_state['serialNumber'] and "noterased" not in st.session_state['DiskDrive1WipeStatus'] and st.session_state['onlyOneDrive'] == True:
 		wipeText = "Success"
 		apiPDFReportDownload = "https://api-us-west.securaze.com/api/products/download-erasure-report"
 		apiPDFReportDownloadParams = {'CustomerID': st.session_state['customerID'], 'ProductID': st.session_state['productID'], 'Token': st.session_state['loginToken']}
@@ -241,13 +250,17 @@ try:
 						"card": {
 							"width": "100%",
 							"height": "200px",
-							"background-color": "green",
+							"background-color": "lightgreen",
 							"margin-bottom": "0px",
+							"margin-top": "30px",
+							"padding-bottom": "0px",
+							"padding-top": "0px",
 						}
 					}
 				)
 			else:
-				st.page_link(label="Wipe successful. Click here for more details.", page="https://us-west.securaze.com/pc-product/details?productID=" + st.session_state['productID'] + "&type=PCProduct#2")
+				with st.container(border=15):
+					st.page_link(label="**✅ Wipe successful.**", page="https://us-west.securaze.com/pc-product/details?productID=" + st.session_state['productID'] + "&type=PCProduct#2")
 			if st.session_state['uiEffectsEnabled'] == True:
 				rain(
 					emoji="✅",
@@ -256,19 +269,78 @@ try:
 					animation_length=3
 				)
 		except:
-			pass																							
+			pass	
+	elif st.session_state['wipeSucceeded'] == True and serialNumber == st.session_state['serialNumber'] and "noterased" in st.session_state['DiskDrive1WipeStatus']:
+		try:
+			if st.session_state['showWipeCard'] == True:
+				card(
+					title="Multiple Drives Detected ❔",
+					text="Provided Serial: " + st.session_state['serialNumber'] + " | Click for more details",
+					url="https://us-west.securaze.com/pc-product/details?productID=" + st.session_state['productID'] + "&type=PCProduct#2",
+					styles={
+						"card": {
+							"width": "100%",
+							"height": "200px",
+							"background-color": "grey",
+							"margin-bottom": "0px",
+							"margin-top": "30px",
+							"padding-bottom": "0px",
+							"padding-top": "0px",
+						}
+					}
+				)
+			else:
+				with st.container(border=15):
+					st.page_link(label="**❔ Wipe may be incomplete.** Click here to audit manually.", page="https://us-west.securaze.com/pc-product/details?productID=" + st.session_state['productID'] + "&type=PCProduct#2")
+			if st.session_state['uiEffectsEnabled'] == True:
+				rain(
+					emoji="❔",
+					font_size=30,
+					falling_speed=8,
+					animation_length=3
+				)
+		except:
+			pass
+	
+	elif st.session_state['wipeSucceeded'] == True and serialNumber == st.session_state['serialNumber'] and st.session_state['onlyOneDrive'] == True:
+		try:
+			if st.session_state['showWipeCard'] == True:
+				card(
+					title="Multiple Drives Detected ❔",
+					text="Provided Serial: " + st.session_state['serialNumber'] + " | Click for more details",
+					url="https://us-west.securaze.com/pc-product/details?productID=" + st.session_state['productID'] + "&type=PCProduct#2",
+					styles={
+						"card": {
+							"width": "100%",
+							"height": "200px",
+							"background-color": "grey",
+							"margin-bottom": "0px",
+							"margin-top": "30px",
+							"padding-bottom": "0px",
+							"padding-top": "0px",
+						}
+					}
+				)
+			else:
+				with st.container(border=15):
+					st.page_link(label="**❔ Multiple Drives Detected.** Click here to audit manually.", page="https://us-west.securaze.com/pc-product/details?productID=" + st.session_state['productID'] + "&type=PCProduct#2")
+			if st.session_state['uiEffectsEnabled'] == True:
+				rain(
+					emoji="❔",
+					font_size=30,
+					falling_speed=8,
+					animation_length=3
+				)
+		except:
+			pass
+	
+																						
 except:
 	pass
-try:
-	if st.session_state['verboseMode'] == True:
-		st.toast("API Response: " + lookupMessage)
-except:
-	if st.session_state['verboseMode'] == True:
+if st.session_state['verboseMode'] == True:
 		st.toast("Showing cached data if available.")
 if st.session_state['userLoginCompleted'] == True:
 	with st.sidebar:
-		if st.button("🔄 Restore Last State", use_container_width=True, help="Use to restore the last device's information."):
-			pass
 		if resetLogin == True:
 			st.rerun()
 		if st.session_state['userLoginCompleted'] == True:
@@ -295,16 +367,14 @@ try:
 			with st.container(border=15):
 				st.download_button("↓  Download Work Report", type="primary", use_container_width=True, data=pdfFile, mime="application/pdf", file_name=st.session_state['serialNumber'] + "_Work_Report.pdf")
 				st.download_button("↓  Download Audit Report", type="primary", use_container_width=True, data=auditReport, file_name=st.session_state['serialNumber'] + "_Audit_Report.txt")
-				st.link_button(label="🔬 View on Dashboard", url=st.session_state['productDetailURL'], use_container_width=True)
-				if st.button("📖 Show Audit Details", use_container_width=True):
+				st.link_button(label="🔬 View On Dashboard", url=st.session_state['productDetailURL'], use_container_width=True)
+				if st.button("📖 Show More Details", use_container_width=True):
 					st.markdown(auditReport)
 		except:
 			pass
 		try:
-			with st.expander("Full API Response (Advanced)"):
+			with st.expander("Full API Response for Disk 0 (Advanced)"):
 				st.write(st.session_state['DiskDrive1Data'])
-
-
 		except:
 			st.toast("Something went wrong when processing the API response. Please use the Securaze Dashboard to fall back.")
 except:
@@ -312,7 +382,8 @@ except:
 try:
 	if 'userLoginCompleted' not in st.session_state or st.session_state['userLoginCompleted'] == False:
 		with st.container(border=15):
-			st.markdown("**Welcome to the Securaze Wipe and Audit Tool v0.8 Rolling Test developed by Noah Dailey**  \n Please log in using the sidebar to begin.")
+			st.markdown("**Welcome to the Wipe and Audit Tool powered by Securaze API.**  \n Please log in using the sidebar to begin.")
+		with st.container(border=15):
 			st.image("https://github.com/ENDTesters/Wipe-Audit-Tool/blob/main/icon.png?raw=true", caption="A wireframe image of a hard drive whose platter has been replaced with a magnifying glass generated by DALL-E.")
 except:
 	pass
