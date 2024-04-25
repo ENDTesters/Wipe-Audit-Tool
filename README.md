@@ -19,11 +19,11 @@ Use on the Web:
 
 No "return"/"enter" key handling during main program.   
 *Workaround:*   
-Use the mouse to click the "🔍 Audit" button.
+Use the mouse or tab navigation to activate the "🔍 Audit" button.
 
 ## Limitations
-💽 If multiple drives are detected, the program just provides a link to the portal.
-🗒️ Audit report can only be generated if the wipe is successful on a single-disk machine.
+💽 If multiple drives are detected, the program just provides a link to the portal.  
+🗒️ Audit report can only be generated if the wipe is successful on a single-disk machine.  
 🗒️ Audit reports are stored locally, not on the cloud.  
 
 ## Changelog
