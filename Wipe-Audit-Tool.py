@@ -69,12 +69,6 @@ with st.sidebar:
 	st.link_button(label="💻 Lenovo Support", use_container_width=True, url="https://support.lenovo.com/us/en/", help="Lenovo Support EN-US Main Page")
 	st.link_button(label="💻 Lenovo PSREF", help="Product Specs Reference", use_container_width=True, url="https://psref.lenovo.com/")
 	st.link_button(label="💻 Dell Support", use_container_width=True, url="https://www.dell.com/support/home/en-us", help="Dell Support EN-US")
-	try:
-		if st.session_state['customerName'] == "GEODIS":
-			st.link_button(label="🌐 GEODIS Web WMS", use_container_width=True, url="https://wemea-geodis-wms-log5.extranet.geodis.org", help="Geodis Warehouse Management System (Altesse)")
-			st.link_button(label="🌐 GEODIS Reverse Visibility", use_container_width=True, url="https://geodis-reverse-visibility.extranet.geodis.org", help="Geodis Reverse Visibility")
-	except:
-		pass
 resetLogin = False
 try:
 	
